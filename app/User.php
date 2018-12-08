@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'nombre', 'apellidos', 'correo','telefono','user','activo','password','clinic_id'
     ];
 
     /**
@@ -26,4 +26,21 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function clinic(){
+        return $this->belongsTo('App\Clinic');
+    }
+
+    public function doctor(){
+        return $this->hasOne('App\Doctor');
+    }
+
+    public function employee(){
+        return $this->hasOne('App\Employee');
+    }
+
+    public function patient(){
+        return $this->hasOne('App\Patient');
+    }
+
 }

@@ -2,6 +2,8 @@
 
 use Faker\Generator as Faker;
 
+use App\User;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -15,9 +17,14 @@ use Faker\Generator as Faker;
 
 $factory->define(App\User::class, function (Faker $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+        'nombre' => $faker->name,
+        'apellidos' => $faker->firstNameMale . " ". $faker->firstNameFemale,
+        'correo' => $faker->unique()->safeEmail,
+        'telefono' => $faker->phoneNumber,
+        'user' => $faker->userName,
+        'password' => bcrypt('secret'), // secret
         'remember_token' => str_random(10),
+        'clinic_id' => $faker->numberBetween(1,2),
+        // 'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
     ];
 });

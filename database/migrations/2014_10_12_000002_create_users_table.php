@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('telefono')->nullable();
             $table->string('user')->nullable();
             $table->string('password')->nullable();
-            $table->string('activo');
+            // $table->string('activo');
 
             $table->integer('clinic_id')->unsigned();
 
