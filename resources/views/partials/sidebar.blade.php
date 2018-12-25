@@ -32,7 +32,7 @@
             <li class="header">HEADER</li>
             <!-- Optionally, you can add icons to the links -->
             <li class="active"><a href="#"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
-            <li class=""><a href="#"><i class="fa fa-user-md"></i> <span>Areas</span></a></li>
+            <li class=""><a href="{{ route('areas.index') }}"><i class="fa fa-user-md"></i> <span>Areas</span></a></li>
             <li class=""><a href="#"><i class="fa fa-user-md"></i> <span>Clinicas</span></a></li>
             <li class=""><a href="#"><i class="fa fa-user-md"></i> <span>Doctores</span></a></li>
             <li class=""><a href="#"><i class="fa fa-user-md"></i> <span>Pacientes</span></a></li>

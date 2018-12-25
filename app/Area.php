@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Area extends Model
 {
     protected $fillable = [
-        'nombre','description'
+        'nombre','descripcion'
     ];
 
     public function doctors(){
