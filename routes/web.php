@@ -13,6 +13,7 @@
 
 Route::get('/', function () {
     return view('app');
-});
+})->name('dashboard');
 
 Route::resource('areas', 'AreasController');
+Route::resource('clinicas', 'ClinicasController');

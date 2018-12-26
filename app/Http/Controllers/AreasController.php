@@ -43,7 +43,7 @@ class AreasController extends Controller
 
         $area = Area::create($request->all());
 
-        return redirect()->route('areas.edit',compact('area'))->with('succes','Area creada correctamente');
+        return redirect()->route('areas.edit',$area->id)->with('succes','Area creada correctamente');
     }
 
     /**

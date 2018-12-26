@@ -8,14 +8,15 @@
 
     <title>Laravel</title>
 
+    <link rel="stylesheet" href="{{ asset('css/resources.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    {{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     
     <link rel="stylesheet" href="{{ asset('adminLTE/font-awesome/css/font-awesome.min.css') }}">    
     <link rel="stylesheet" href="{{ asset('adminLTE/Ionicons/css/ionicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('adminLTE/css/AdminLTE.min.css') }}">    
-    <link rel="stylesheet" href="{{ asset('adminLTE/css/skins/skin-blue.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('adminLTE/css/skins/skin-blue.min.css') }}"> --}}
 
 
     {{-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic"> --}}
@@ -39,9 +40,9 @@
         </div>
         @include('partials.footer')
     </div>
-    {{-- <script src="{{ asset('js/app.js') }}"></script> --}}
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    {{-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="{{ asset('adminLTE/js/adminlte.min.js') }}"></script>
+    <script src="{{ asset('adminLTE/js/adminlte.min.js') }}"></script> --}}
 </body>
 </html>
