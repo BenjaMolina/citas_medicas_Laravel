@@ -27,6 +27,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    //Mutador
+    public function setPasswordAttribute($password){
+        $this->attributes['password'] = bcrypt($password);
+    }
+
+
+
     public function clinic(){
         return $this->belongsTo('App\Clinic');
     }

@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Doctor extends User
+class Doctor extends Model
 {
     protected $fillable = [
         'cedula', 'especialidad','area_id','user_id'
@@ -14,7 +14,7 @@ class Doctor extends User
         return $this->belongsTo('App\Area');
     }
 
-    public function usuario(){
+    public function user(){
         return $this->belongsTo('App\User');
     }
 
