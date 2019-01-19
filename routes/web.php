@@ -19,3 +19,4 @@ Route::get('/', function () {
 Route::resource('areas', 'AreasController');
 Route::resource('clinicas', 'ClinicasController');
 Route::resource('doctores', 'DoctoresController');
+Route::resource('pacientes', 'PacientesController');

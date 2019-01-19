@@ -2,19 +2,19 @@
 
 @section('content')
 @include('partials.content_header',[
-    'header' => 'Clinicas',
-    "description" => 'Clinicas Description'
+    'header' => 'Pacientes',
+    "description" => 'Pacientes Registrados'
 ])
 
 <section class="content container-fluid">
-        <a href="{{ route('clinicas.create') }}" class="btn btn-flat btn-primary" title="Editar">
-                <i class="fa fa-edit"></i> Nueva Clinica
+        <a href="{{ route('pacientes.create') }}" class="btn btn-flat btn-primary" title="Editar">
+                <i class="fa fa-edit"></i> Nuevo Paciente
             </a>
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Clinicas Registradas</h3>
+                    <h3 class="box-title">Pacientes Registrados</h3>
 
                     <div class="box-tools">
                         <div class="input-group input-group-sm" style="width: 150px;">
@@ -32,27 +32,27 @@
                         <tr>
                             <th>Registro</th>
                             <th>Nombre</th>
-                            <th>Direccion</th>
+                            <th>Apellidos</th>
                             <th>Telefono</th>
                             <th>Correo</th>
-                            <th>Descripcion</th>
+                            <th>Sexo</th>
                             <th colspan="2" class="text-center">Acciones</th>
                         </tr>
-                        @foreach ($clinicas as $clinica)
+                        @foreach ($pacientes as $paciente)
                             <tr>
-                                <td>{{ $clinica->id }}</td>
-                                <td>{{ $clinica->nombre }}</td>
-                                <td>{{ $clinica->direccion }}</td>
-                                <td>{{ $clinica->telefono }}</td>
-                                <td>{{ $clinica->correo }}</td>
-                                <td>{{ $clinica->descripcion }}</td>
-                                <td>                                    
-                                    <a href="{{ route('clinicas.edit',$clinica->id) }}" class="btn btn-sm btn-primary" title="Editar">
+                                <td>{{ $paciente->id }}</td>
+                                <td>{{ $paciente->user->nombre }}</td>
+                                <td>{{ $paciente->user->apellidos }}</td>
+                                <td>{{ $paciente->user->telefono }}</td>
+                                <td>{{ $paciente->user->correo }}</td>
+                                <td>{{ $paciente->sexo }}</td>
+                                <td>
+                                    <a href="{{ route('pacientes.edit',$paciente->id) }}" class="btn btn-sm btn-primary" title="Editar">
                                         <i class="fa fa-edit"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <form action="{{ route('clinicas.destroy',$clinica->id) }}" method="post">
+                                    <form action="{{ route('pacientes.destroy',$paciente->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-sm btn-danger" title="Eliminar">
@@ -66,7 +66,7 @@
                     </table>
                 </div>
                 <!-- /.box-body -->
-                {{ $clinicas->render() }}
+                {{ $pacientes->render() }}
             </div>
             <!-- /.box -->
         </div>

@@ -33,7 +33,7 @@
                             <th>Registro</th>
                             <th>Nombre</th>
                             <th>Descripcion</th>
-                            <th>Acciones</th>
+                            <th colspan="2" class="text-center">Acciones</th>
                         </tr>
                         @foreach ($areas as $area)
                             <tr>
@@ -42,13 +42,15 @@
                                 <td>{{ $area->descripcion }}</td>
                                 <td>
                                     <a href="{{ route('areas.edit',$area->id) }}" class="btn btn-sm btn-primary" title="Editar">
-                                        <i class="fa fa-edit"></i>Editar
+                                        <i class="fa fa-edit"></i>
                                     </a>
+                                </td>
+                                <td>
                                     <form action="{{ route('areas.destroy',$area->id) }}" method="post">
                                         @csrf
                                         @method('DELETE')
                                         <button class="btn btn-sm btn-danger" title="Eliminar">
-                                            <i class="fa fa-times"></i>Eliminar
+                                            <i class="fa fa-times"></i>
                                         </button>
                                     </form>
                                 </td>

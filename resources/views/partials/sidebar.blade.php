@@ -35,7 +35,7 @@
             <li class=""><a href="{{ route('areas.index') }}"><i class="fa fa-user-md"></i> <span>Areas</span></a></li>
             <li class=""><a href="{{ route('clinicas.index') }}"><i class="fa fa-user-md"></i> <span>Clinicas</span></a></li>
             <li class=""><a href="{{ route('doctores.index') }}"><i class="fa fa-user-md"></i> <span>Doctores</span></a></li>
-            <li class=""><a href="#"><i class="fa fa-user-md"></i> <span>Pacientes</span></a></li>
+            <li class=""><a href="{{ route('pacientes.index') }}"><i class="fa fa-user-md"></i> <span>Pacientes</span></a></li>
             <li class=""><a href="#"><i class="fa fa-user-md"></i> <span>Citas</span></a></li>
             <li class=""><a href="#"><i class="fa fa-user-md"></i> <span>Consultas</span></a></li>
             <li class=""><a href="#"><i class="fa fa-user-md"></i> <span>Empleados</span></a></li>

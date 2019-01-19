@@ -36,7 +36,7 @@
                             <th>Telefono</th>
                             <th>Correo</th>
                             <th>Especialidad</th>
-                            <th>Acciones</th>
+                            <th colspan="2" class="text-center">Acciones</th>
                         </tr>
                         @foreach ($doctores as $doctor)
                             <tr>
@@ -47,18 +47,18 @@
                                 <td>{{ $doctor->user->correo }}</td>
                                 <td>{{ $doctor->especialidad }}</td>
                                 <td>
-                                    <div class="">
-                                        <a href="{{ route('doctores.edit',$doctor->id) }}" class="btn btn-sm btn-primary" title="Editar">
-                                            <i class="fa fa-edit"></i>Editar
-                                        </a>
-                                        <form action="{{ route('doctores.destroy',$doctor->id) }}" method="post">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-sm btn-danger" title="Eliminar">
-                                                <i class="fa fa-times"></i>Eliminar
-                                            </button>
-                                        </form>
-                                    </div>
+                                    <a href="{{ route('doctores.edit',$doctor->id) }}" class="btn btn-sm btn-primary" title="Editar">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <form action="{{ route('doctores.destroy',$doctor->id) }}" method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-sm btn-danger" title="Eliminar">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach
