@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Laravel</title>
-
+    @yield('css')
     <link rel="stylesheet" href="{{ asset('css/resources.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <!-- Latest compiled and minified CSS -->
@@ -51,6 +51,7 @@
         @include('partials.footer')
     </div>
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scripts')
     {{-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="{{ asset('adminLTE/js/adminlte.min.js') }}"></script> --}}
