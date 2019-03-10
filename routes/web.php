@@ -20,3 +20,4 @@ Route::resource('areas', 'AreasController');
 Route::resource('clinicas', 'ClinicasController');
 Route::resource('doctores', 'DoctoresController');
 Route::resource('pacientes', 'PacientesController');
+Route::resource('empleados', 'EmpleadosController');
