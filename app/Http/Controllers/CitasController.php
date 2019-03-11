@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Appointment;
 use Illuminate\Http\Request;
+use App\Doctor;
+use App\User;
+use App\Patient;
 
 class CitasController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -28,69 +33,26 @@ class CitasController extends Controller
         return view('citas.index', compact('citas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function getcita(Request $request)
     {
-        //
-    }
+        if ($request->ajax()) {
+            $id = (int)$request->id;
+            $cita = Appointment::whereId($id)->first();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Appointment $appointment)
-    {
-        //
-    }
+            $doctores = Doctor::with(['user' => function($q ){
+                $q->select('id','nombre'); 
+              }])->get();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Appointment $appointment)
-    {
-        //
-    }
+            $pacientes = Patient::with(['user' => function($q ){
+               $q->select('id','nombre'); 
+             }])->get();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Appointment $appointment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Appointment $appointment)
-    {
-        //
+            return response()->json([
+                'cita' => $cita,
+                'doctores' => $doctores,
+                'pacientes' => $pacientes,
+            ]);
+        }
     }
 }

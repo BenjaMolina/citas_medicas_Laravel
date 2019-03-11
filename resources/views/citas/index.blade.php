@@ -46,62 +46,128 @@
 
                 },
                 dayClick: function(date, jsEvent,view){
-                    console.log('Valor seleccionado ' + date.format());
-                    console.log('Vista seleccionado ' + view.name);
+                    limpiarModal();
                     $('#modalCita').modal();
                 },
                 eventSources:[{      
                     events : function(start, end, timezone, callback) {
-                                $.ajax({
-                                    url: "{{ route('citas.index') }}",
-                                    dataType: 'json',
-                                    data: {                                        
-                                        start: start.unix(),
-                                        end: end.unix()
-                                    },
-                                    success: function(data) {                                        
-                                        const events = [];
-                                       data.map(function(cita, index) {                                           
-                                            events.push({
-                                                id : cita.id,
-                                                title : cita.asunto,
-                                                start :  `${cita.fecha} ${cita.hora}`,
-                                                allDay : false,
-                                            });
+                            $.ajax({
+                                url: "{{ route('citas.index') }}",
+                                dataType: 'json',
+                                data: {                                        
+                                    start: start.unix(),
+                                    end: end.unix()
+                                },
+                                success: function(data) {                                        
+                                    const events = [];
+                                    data.map(function(cita, index) {                                           
+                                        events.push({
+                                            id : cita.id,
+                                            title : cita.asunto,
+                                            start :  `${cita.fecha} ${cita.hora}`,
+                                            allDay : false,
                                         });
-                                        callback(events);
-                                    },
-                                    error: function(err){
-                                        console.log(err)
-                                    }
-                                });
-                        }
-                         
-                    // events: [
-                    //     @forelse ($citas as $cita)
-                    //         {
-                    //             'id' : '{{ $cita->id}}',
-                    //             'title' : '{{ $cita->asunto}}',
-                    //             'start' :  '{{ $cita->fecha . " " . $cita->hora}}',
-                    //             // 'color' : "red",
-                    //             // 'textColor' : "white",
-                    //         },
-                    //     @empty
-                            
-                    //     @endforelse
-                
-                    // ],
-                    // color: 'black',
-                    // textColor: 'yellow', // an option!
+                                    });
+                                    callback(events);
+                                },
+                                error: function(err){
+                                    console.log(err)
+                                }
+                            });
+                    }                        
+                    
                 }],
                 eventClick: function(calEvent, jsEvent,view){
-                    console.log(calEvent);
-                    console.log(calEvent.title);
-                    console.log(calEvent.descripcion);
+                    const {id} = calEvent;
+                    const modal = $("#modalCita");
+                    const paciente = $("#paciente");
+                    const doctor = $("#doctor");
+                    const asunto = $("#asunto");
+                    const observaciones = $("#observaciones");
+                    const hora = $("#hora");
+                    const fecha = $("#fecha");
 
-                    $('#modalCita').modal();
+                    getDataAjax(id)
+                        .then(res => {
+                            console.log(res);
+                            const {cita,doctores,pacientes} = res;
+                            modal.find('.modal-title').html("Editar Cita");
+
+                            modal.find('#asunto').val(cita.asunto);
+                            modal.find('#observaciones').val(cita.observaciones);
+                            modal.find('#hora').val(cita.hora);
+                            modal.find('#fecha').val(cita.fecha);
+
+                            let doctorsSelect = ``, pacientesSelect = ``;
+
+                            doctores.map((doctor,index) => {
+                                doctorsSelect += 
+                                        `<option 
+                                            ${cita.doctor_id === doctor.id ? 'selected' : ''} 
+                                            value="${doctor.id}">
+                                                ${doctor.user.nombre}
+                                            </option>`
+                                
+                                
+                            });
+                            pacientes.map((paciente,index) => {
+                                pacientesSelect += 
+                                        `<option 
+                                            ${cita.patient_id== paciente.id ? 'selected' : ''} 
+                                            value="${paciente.id}">
+                                                ${paciente.user.nombre}
+                                            </option>`
+                                
+                                
+                            });
+                            modal.find('#doctor').html(doctorsSelect);
+                            modal.find('#paciente').html(pacientesSelect);
+                            modal.find('.modal-footer').html(`
+                                <button type="button" id="btnGuardar" class="btn btn-primary">Actualizar</button>
+                                <button type="button" id="btnEliminar" class="btn btn-danger">Eliminar</button>
+                                <button type="button" class="btn btn-denger" data-dismiss="modal">Cancelar</button>
+                            `)
+                        })
+                        .catch(err => console.log(err))
+
+                    
+
+                    
+                    modal.modal();
                 }
+
             });
+
+            function limpiarModal() {
+                const modal = $("#modalCita");
+                modal.find("#doctor").html("");
+                modal.find("#asunto").val("");
+                modal.find("#observaciones").val("");
+                modal.find("#paciente").html("");
+                modal.find("#hora").val("");
+                modal.find("#fecha").val("");
+            }
+
+            function getDataAjax(id){
+                return $.ajax({
+                    url: "{{  route('citas.getcita') }}",
+                    type:'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    data:{
+                        id,                           
+                    },
+                    // success:(res) => {
+                        
+
+                    // },  
+                    // error:(err) => {
+                    //     console.log(err);
+                    // }
+                });
+            }
         });
     </script>
 @endsection
+

@@ -21,4 +21,5 @@ Route::resource('clinicas', 'ClinicasController');
 Route::resource('doctores', 'DoctoresController');
 Route::resource('pacientes', 'PacientesController');
 Route::resource('empleados', 'EmpleadosController');
-Route::resource('citas', 'CitasController');
+Route::resource('citas', 'CitasController')->only(['index']);
+Route::post('citas/getcita', 'CitasController@getcita')->name('citas.getcita');
