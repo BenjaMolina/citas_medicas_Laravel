@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Appointment;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,17 @@ class CitasController extends Controller
      */
     public function index()
     {
-        return view('citas.index');
+
+        if (request()->ajax()) {
+            $citas = Appointment::all('id', 'asunto', 'fecha', 'hora');
+
+            return $citas;
+        }
+
+        $citas = Appointment::all();
+
+
+        return view('citas.index', compact('citas'));
     }
 
     /**

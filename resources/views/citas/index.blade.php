@@ -34,7 +34,7 @@
 
 
 @section('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>  
+    <script src="http://momentjs.com/downloads/moment-with-locales.min.js"></script>  
     <script src="https://fullcalendar.io/js/fullcalendar-3.0.0/fullcalendar.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.0/locale/es.js"></script>
     <script>
@@ -50,38 +50,49 @@
                     console.log('Vista seleccionado ' + view.name);
                     $('#modalCita').modal();
                 },
-                eventSources:[{                
-                    events: [
-                        {
-                            title  : 'event1',
-                            start  : '2019-03-07',
-                            descripcion: 'Cita con el lavandero'
-                        },                    
-                        {
-                            title  : 'event1',
-                            start  : '2019-03-07'
-                        },
-                        {
-                            title  : 'event2',
-                            start  : '2019-03-07',
-                            end    : '2019-03-09'
-                        },
-                        {
-                            title  : 'event_color',
-                            // color: "#FF0F0",
-                            // textColor: "white",
-                            start  : '2019-03-10T12:30:00',
-                            allDay : false // will make the time show
-                        },
-                        {
-                            title  : 'event3',
-                            start  : '2019-03-10T12:30:00',
-                            allDay : false // will make the time show
-                        },
-                        
-                    ],
+                eventSources:[{      
+                    events : function(start, end, timezone, callback) {
+                                $.ajax({
+                                    url: "{{ route('citas.index') }}",
+                                    dataType: 'json',
+                                    data: {                                        
+                                        start: start.unix(),
+                                        end: end.unix()
+                                    },
+                                    success: function(data) {                                        
+                                        const events = [];
+                                       data.map(function(cita, index) {                                           
+                                            events.push({
+                                                id : cita.id,
+                                                title : cita.asunto,
+                                                start :  `${cita.fecha} ${cita.hora}`,
+                                                allDay : false,
+                                            });
+                                        });
+                                        callback(events);
+                                    },
+                                    error: function(err){
+                                        console.log(err)
+                                    }
+                                });
+                        }
+                         
+                    // events: [
+                    //     @forelse ($citas as $cita)
+                    //         {
+                    //             'id' : '{{ $cita->id}}',
+                    //             'title' : '{{ $cita->asunto}}',
+                    //             'start' :  '{{ $cita->fecha . " " . $cita->hora}}',
+                    //             // 'color' : "red",
+                    //             // 'textColor' : "white",
+                    //         },
+                    //     @empty
+                            
+                    //     @endforelse
+                
+                    // ],
                     // color: 'black',
-                    // textColor: 'yellow',
+                    // textColor: 'yellow', // an option!
                 }],
                 eventClick: function(calEvent, jsEvent,view){
                     console.log(calEvent);
