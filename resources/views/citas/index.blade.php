@@ -58,12 +58,13 @@
                                     start: start.unix(),
                                     end: end.unix()
                                 },
-                                success: function(data) {                                        
+                                success: function(data) {   
+                                    console.log(data);                                     
                                     const events = [];
                                     data.map(function(cita, index) {                                           
                                         events.push({
                                             id : cita.id,
-                                            title : cita.asunto,
+                                            title : cita.patient.user.nombre,
                                             start :  `${cita.fecha} ${cita.hora}`,
                                             allDay : false,
                                         });
@@ -89,7 +90,7 @@
 
                     getDataAjax(id)
                         .then(res => {
-                            console.log(res);
+                            // console.log(res);
                             const {cita,doctores,pacientes} = res;
                             modal.find('.modal-title').html("Editar Cita");
 

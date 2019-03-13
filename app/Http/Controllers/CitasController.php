@@ -22,7 +22,7 @@ class CitasController extends Controller
     {
 
         if (request()->ajax()) {
-            $citas = Appointment::all('id', 'asunto', 'fecha', 'hora');
+            $citas = Appointment::with('patient.user')->get();
 
             return $citas;
         }
