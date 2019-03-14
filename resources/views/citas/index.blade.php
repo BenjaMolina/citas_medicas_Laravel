@@ -39,6 +39,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.0.0/locale/es.js"></script>
     <script>
         $(document).ready(function(){
+            
             $("#calendario").fullCalendar({
                 header: {
                     left: 'title',
@@ -47,6 +48,24 @@
                 },
                 dayClick: function(date, jsEvent,view){
                     limpiarModal();
+                    const modal = $("#modalCita");
+                    modal.find('.modal-title').html("Nueva Cita");
+
+                    newCitaModal()
+                        .then(data => {
+                            const {doctores, pacientes} = data;
+                            // console.log(doctores);
+                            llenarSelectsModal(modal,doctores,pacientes)
+
+                            
+
+                            modal.find('.modal-footer').html(`
+                                <button type="button" id="btnGuardar" class="btn btn-primary">Guardar</button>
+                                <button type="button" class="btn btn-denger" data-dismiss="modal">Cancelar</button>
+                            `)
+                        })
+                        .catch(err =>console.log(err))
+
                     $('#modalCita').modal();
                 },
                 eventSources:[{      
@@ -59,7 +78,7 @@
                                     end: end.unix()
                                 },
                                 success: function(data) {   
-                                    console.log(data);                                     
+                                    // console.log(data);                                     
                                     const events = [];
                                     data.map(function(cita, index) {                                           
                                         events.push({
@@ -88,43 +107,29 @@
                     const hora = $("#hora");
                     const fecha = $("#fecha");
 
-                    getDataAjax(id)
+                    getCitaAjax(id)
                         .then(res => {
                             // console.log(res);
                             const {cita,doctores,pacientes} = res;
+                            limpiarModal();
                             modal.find('.modal-title').html("Editar Cita");
+                            modal.find('.modal-body').append(`
+                                <div class="form-group">
+                                    <label for="fecha">Fecha</label>
+                                    <input type="date" class="form-control" id="fecha" placeholder="fecha">
+                                </div>
+                            `);
 
                             modal.find('#asunto').val(cita.asunto);
                             modal.find('#observaciones').val(cita.observaciones);
                             modal.find('#hora').val(cita.hora);
                             modal.find('#fecha').val(cita.fecha);
 
-                            let doctorsSelect = ``, pacientesSelect = ``;
+                            llenarSelectsModal(modal,doctores,pacientes,cita);
 
-                            doctores.map((doctor,index) => {
-                                doctorsSelect += 
-                                        `<option 
-                                            ${cita.doctor_id === doctor.id ? 'selected' : ''} 
-                                            value="${doctor.id}">
-                                                ${doctor.user.nombre}
-                                            </option>`
-                                
-                                
-                            });
-                            pacientes.map((paciente,index) => {
-                                pacientesSelect += 
-                                        `<option 
-                                            ${cita.patient_id== paciente.id ? 'selected' : ''} 
-                                            value="${paciente.id}">
-                                                ${paciente.user.nombre}
-                                            </option>`
-                                
-                                
-                            });
-                            modal.find('#doctor').html(doctorsSelect);
-                            modal.find('#paciente').html(pacientesSelect);
+
                             modal.find('.modal-footer').html(`
-                                <button type="button" id="btnGuardar" class="btn btn-primary">Actualizar</button>
+                                <button type="button" id="btnActualizar" class="btn btn-primary">Actualizar</button>
                                 <button type="button" id="btnEliminar" class="btn btn-danger">Eliminar</button>
                                 <button type="button" class="btn btn-denger" data-dismiss="modal">Cancelar</button>
                             `)
@@ -146,10 +151,48 @@
                 modal.find("#observaciones").val("");
                 modal.find("#paciente").html("");
                 modal.find("#hora").val("");
-                modal.find("#fecha").val("");
+                let fecha = modal.find('#fecha');
+                if(fecha){
+                    fecha.parent().remove();
+                }
+                
             }
 
-            function getDataAjax(id){
+            $(document).on('click', '#btnGuardar',function(e){
+                e.preventDefault();
+                console.log("Guardar" , e);
+            });
+
+            //Llenamos los select del modal para pacientes y Doctores
+            function llenarSelectsModal(modal,doctores, pacientes,cita={}){
+                let doctorsSelect = ``, pacientesSelect = ``;
+
+                doctores.map((doctor,index) => {
+                    doctorsSelect += 
+                            `<option 
+                                ${cita.doctor_id === doctor.id ? 'selected' : ''} 
+                                value="${doctor.id}">
+                                    ${doctor.user.nombre}
+                                </option>`
+                    
+                    
+                });
+                pacientes.map((paciente,index) => {
+                    pacientesSelect += 
+                            `<option 
+                                ${cita.patient_id== paciente.id ? 'selected' : ''} 
+                                value="${paciente.id}">
+                                    ${paciente.user.nombre}
+                                </option>`
+                    
+                    
+                });
+                modal.find('#doctor').html(doctorsSelect);
+                modal.find('#paciente').html(pacientesSelect);
+            }
+
+            //Obtener una cita en especifico para actualizar
+            function getCitaAjax(id){
                 return $.ajax({
                     url: "{{  route('citas.getcita') }}",
                     type:'POST',
@@ -159,13 +202,16 @@
                     data:{
                         id,                           
                     },
-                    // success:(res) => {
-                        
+                });
+            }
 
-                    // },  
-                    // error:(err) => {
-                    //     console.log(err);
-                    // }
+            function newCitaModal(){
+                return $.ajax({
+                    url: "{{ route('citas.showcitamodal') }}",
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
                 });
             }
         });

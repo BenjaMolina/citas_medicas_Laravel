@@ -40,13 +40,8 @@ class CitasController extends Controller
             $id = (int)$request->id;
             $cita = Appointment::whereId($id)->first();
 
-            $doctores = Doctor::with(['user' => function($q ){
-                $q->select('id','nombre'); 
-              }])->get();
-
-            $pacientes = Patient::with(['user' => function($q ){
-               $q->select('id','nombre'); 
-             }])->get();
+            $doctores = $this->getDoctores();
+            $pacientes = $this->getPacientes();
 
             return response()->json([
                 'cita' => $cita,
@@ -54,5 +49,30 @@ class CitasController extends Controller
                 'pacientes' => $pacientes,
             ]);
         }
+    }
+
+
+    public function showNewCitaModal(){
+        $doctores = $this->getDoctores();
+        $pacientes = $this->getPacientes();
+
+        return response()->json([
+            'doctores' => $doctores,
+            'pacientes' => $pacientes,
+        ]);
+ 
+    }
+
+
+    public function getDoctores(){
+        return Doctor::with(['user' => function($q ){
+            $q->select('id','nombre'); 
+          }])->get();
+    }
+
+    public function getPacientes(){
+        return Patient::with(['user' => function($q ){
+            $q->select('id','nombre'); 
+          }])->get();
     }
 }

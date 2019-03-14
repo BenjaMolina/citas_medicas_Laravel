@@ -43,10 +43,7 @@
                     <label for="hora">Horario</label>
                     <input type="time" class="form-control" id="hora" placeholder="hora">
                 </div>                
-                <div class="form-group">
-                    <label for="fecha">Fecha</label>
-                    <input type="date" class="form-control" id="fecha" placeholder="fecha">
-                </div>              
+                              
                 
             </form>
         </div>
