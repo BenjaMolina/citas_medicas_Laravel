@@ -8,6 +8,7 @@
             <h4 class="modal-title"></h4>
         </div>
         <div class="modal-body">
+            
             <form>
                 <div class="row">
                     <div class="col-md-6">
@@ -37,12 +38,16 @@
                 </div>
                 <div class="form-group">
                     <label for="observaciones">Observaciones</label>
-                    <input type="text" class="form-control" id="observaciones" placeholder="Observaciones">
+                    <input type="text" class="form-control" id="observaciones" placeholder="Observaciones" required>
                 </div>                
                 <div class="form-group">
                     <label for="hora">Horario</label>
-                    <input type="time" class="form-control" id="hora" placeholder="hora">
-                </div>                
+                    <input type="time" class="form-control" id="hora" required>
+                </div>          
+                <div class="form-group">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" class="form-control" id="fecha">
+                </div>      
                               
                 
             </form>

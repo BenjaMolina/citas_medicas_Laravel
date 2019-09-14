@@ -6,16 +6,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employee extends User
 {
-    protected $fillable= [
+    protected $fillable = [
         'user_id'
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo('App\User');
     }
 
     //Relacion polimorfica
-    public function citable(){
-        return $this->morphMany('App\Appointment','appointmentable');
+    public function citable()
+    {
+        return $this->morphMany(Appointment::class, 'appointmentable');
     }
 }

@@ -21,6 +21,6 @@ Route::resource('clinicas', 'ClinicasController');
 Route::resource('doctores', 'DoctoresController');
 Route::resource('pacientes', 'PacientesController');
 Route::resource('empleados', 'EmpleadosController');
-Route::resource('citas', 'CitasController')->only(['index','store']);
+Route::resource('citas', 'CitasController')->only(['index', 'store', 'update', 'destroy']);
 Route::post('citas/getcita', 'CitasController@getcita')->name('citas.getcita');
 Route::post('citas/showcitamodal', 'CitasController@showNewCitaModal')->name('citas.showcitamodal');
